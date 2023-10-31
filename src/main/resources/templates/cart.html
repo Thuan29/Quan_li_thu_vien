@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart</title>
+<!-- Bootstrap CSS -->
+<script src="https://kit.fontawesome.com/0cd4cc70ca.js"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+<body>
+
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand text-white" href="/userHome">Thư Viện Sách</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link text-white"
+						href="/userHome/books">Danh sách truyện</a></li>
+						<li class="nav-item"><a class="nav-link text-white"
+						href="/cart">Giỏ hàng</a></li>
+				</ul>
+				<div>
+					<a class="nav-link text-white"
+						th:text="'Hello: ' + ${session.UserName}"></a>
+				</div>
+				<div>
+					<a class="nav-link text-white" href="/logout">logout</a>
+				</div>
+
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h1 class="mt-5">Giỏ hàng</h1>
+		<table class="table mt-4">
+			<thead>
+				<tr>
+					<th>Bìa</th>
+					<th>Tiêu đề</th>
+					<th>Tác giả</th>
+					<th>Thể loại</th>
+					<th>Ngày phát hành</th>
+					<th>Số trang</th>
+					<th>Thao tác</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="cart : ${cartItems}">
+					<td><img alt=""
+						th:src="'data:image/jpeg;base64,' + ${cart.book.image}"
+						style="width: 100px; height: 100px;"></td>
+					<td th:text="${cart.book.title}"></td>
+					<td th:text="${cart.book.author}"></td>
+					<td th:text="${cart.book.category}"></td>
+					<td th:text="${cart.book.date}"></td>
+					<td th:text="${cart.book.numPage}"></td>
+					<td><a th:href="@{/deleteCart/{id} (id=${cart.id})}"><i
+							onclick="return confirmDelete()" class="fa-solid fa-trash ms-2"
+							style="color: #fb2828;"></i></a></td>
+
+			
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+		function confirmDelete() {
+			return confirm("Bạn có chắc chắn muốn xóa cuốn sách này?");
+		}
+	</script>
+</body>
+
+</html>

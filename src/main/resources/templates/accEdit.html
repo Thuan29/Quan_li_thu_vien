@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/0cd4cc70ca.js"
+	crossorigin="anonymous">
+	
+</script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+
+
+</head>
+<style>
+.input1 {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.form-group {
+	margin-right: 40px;
+	margin-bottom: 10px;
+}
+
+#moTa {
+	width: 420px;
+	height: 100px;
+}
+
+.input2 {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.input3 {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.input3 .form-group {
+	width: 205px;
+	height: 37px;
+	margin-bottom: 30px;
+}
+
+.container {
+	display: flex;
+}
+
+.left-div {
+	margin-right: 40%;
+}
+
+.right-div {
+	margin-left: 60%;
+	position: fixed;
+	top: 0;
+}
+
+input[readonly] {
+	background-color: gray;
+}
+
+textarea[readonly] {
+	background-color: gray;
+}
+
+#saveButton {
+	display: none;
+}
+
+#addButton2 {
+	display: none;
+}
+
+#addButton {
+	display: none;
+}
+
+.footer {
+	margin-left: 90%;
+	margin-top: 12%;
+}
+</style>
+<body>
+
+	<p>Tài khoản</p>
+
+
+
+	<form th:action="@{/saveUser}" method="post" th:object="${user}"
+		enctype="multipart/form-data">
+		<input type="hidden" name="id" th:value="${user.id}">
+		<div class="input1">
+			<div class="form-group">
+				<label for="title">Tên tài khoản</label> <input type="text" disabled
+					class="form-control" name="username" id="user-username"
+					th:value="${user.username}" required>
+			</div>
+			<div class="form-group">
+				<label for="title">Mật khẩu</label> <input type="text"
+					class="form-control" disabled name="password" id="user-password"
+					th:value="${user.password}" required>
+			</div>
+		</div>
+	
+		<div class="input2">
+			<div class="form-group">
+				<label for="title">Email</label> <input type="text"
+					class="form-control" disabled name="email" id="user-email"
+					th:value="${user.email}" required>
+			</div>
+			<div class="form-group">
+				<label for="title">Địa chỉ</label> <input type="text"
+					class="form-control" disabled name="address" id="user-address"
+					th:value="${user.address}" required>
+			</div>
+			<div class="form-group">
+				<label for="title">Role</label> <input type="text"
+					class="form-control" disabled name="role" id="user-role"
+					th:value="${user.role}" required>
+			</div>
+		</div>
+	
+		<div class="footer">
+			<button type="submit" id="saveButton" class="btn btn-primary">Save</button>
+			<button id="addButton2" onclick="return confirmAdd()"
+				class="btn btn-primary">Add</button>
+		</div>
+	</form>
+
+	<!--  th:block th:if="${session.msg}">
+		<p class="text-center fs-4 " th:text="${session.msg}"></p>
+		<th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+	</th:block>-->
+
+	<div class="footer">
+		<button id="editButton" class="btn btn-primary">Edit</button>
+		<button id="addButton" class="btn btn-primary">Add</button>
+		<button onclick="goBack()" class="btn btn-primary">Back</button>
+	</div>
+
+
+	<script>
+		//xác nhận add
+		function confirmAdd() {
+			return confirm("Bạn có chắc chắn muốn thêm cuốn sách này?");
+		}
+
+	
+
+		//----------------------------------------------------------//
+		const usernameInput = document.getElementById('user-username');
+		const passwordInput = document.getElementById('user-password');
+		const emailInput = document.getElementById('user-email');
+		const addressInput = document.getElementById('user-address');
+		const roleInput = document.getElementById('user-role');
+		
+		
+		const editBtn = document.getElementById('editButton');
+		const addBtn = document.getElementById('addButton');
+		const saveBtn = document.getElementById('saveButton');
+		const addBtn2 = document.getElementById('addButton2');
+		const imageInput = document.getElementById('imageInput');
+		
+		// sự kiện của nút edit
+		function handleEdit() {
+			usernameInput.disabled = false;
+			passwordInput.disabled = false;
+			emailInput.disabled = false;
+			addressInput.disabled = false;
+			roleInput.disabled = false;
+			
+
+			editBtn.style.display = 'none';
+			saveBtn.style.display = 'block';
+		}
+
+		editBtn.addEventListener('click', handleEdit);
+
+		//sự kiện của nút add
+		function handleAdd() {
+
+			usernameInput.disabled = '';
+			passwordInput.disabled = '';
+			emailInput.disabled = '';
+			addressInput.disabled = '';
+			roleInput.disabled = '';
+
+			usernameInput.disabled = false;
+			passwordInput.disabled = false;
+			emailInput.disabled = false;
+			addressInput.disabled = false;
+			roleInput.disabled = false;
+
+			addBtn.style.display = 'none';
+			editBtn.style.display = 'none';
+			saveBtn.style.display = 'none';
+			addBtn2.style.display = 'block';
+		}
+		addBtn.addEventListener('click', handleAdd);
+
+		const currentUrl = window.location.href;
+		const editBookUrl = 'editUser/-1';
+
+		if (currentUrl.includes(editBookUrl)) {
+			handleAdd();
+		}
+
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+</body>
+</html>
